@@ -4,7 +4,9 @@ const {
   GraphQLString,
   GraphQLList,
 } = require('graphql')
-const { categories, notes } = require('../../data/index')
+
+const Notes = require('../../models/note')
+const Categories = require('../../models/category')
 
 const NoteType = new GraphQLObjectType({
   name: 'Note',
@@ -16,7 +18,7 @@ const NoteType = new GraphQLObjectType({
     category: {
       type: CategoryType,
       resolve(parent, args) {
-        return categories.find((category) => category.id === parent.categoryId)
+        return Categories.findById(parent.categoryId)
       },
     },
   }),
@@ -30,7 +32,7 @@ const CategoryType = new GraphQLObjectType({
     notes: {
       type: new GraphQLList(NoteType),
       resolve(parent, args) {
-        return notes.filter((note) => note.categoryId === parent.id)
+        return Notes.find({ categoryId: parent.id })
       },
     },
   }),

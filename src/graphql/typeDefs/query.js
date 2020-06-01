@@ -1,6 +1,8 @@
 const { GraphQLObjectType, GraphQLID, GraphQLList } = require('graphql')
-const { notes, categories } = require('../data/index')
 const { NoteType, CategoryType } = require('./types/index')
+
+const Notes = require('../models/note')
+const Categories = require('../models/category')
 
 const Query = new GraphQLObjectType({
   name: 'Query',
@@ -9,28 +11,28 @@ const Query = new GraphQLObjectType({
       type: NoteType,
       args: { id: { type: GraphQLID } },
       resolve(parent, args) {
-        return notes.find((note) => note.id === args.id)
+        return Notes.findById(args.id)
       },
     },
     category: {
       type: CategoryType,
       args: { id: { type: GraphQLID } },
       resolve(parent, args) {
-        return categories.find((category) => category.id === args.id)
+        return Categories.findById(args.id)
       },
     },
     notes: {
       type: new GraphQLList(NoteType),
       args: { id: { type: GraphQLID } },
       resolve(parent, args) {
-        return notes
+        return Notes.find({})
       },
     },
     categories: {
       type: new GraphQLList(CategoryType),
       args: { id: { type: GraphQLID } },
       resolve(parent, args) {
-        return categories
+        return Categories.find({})
       },
     },
   },
