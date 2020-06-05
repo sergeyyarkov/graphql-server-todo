@@ -9,8 +9,8 @@ const PORT = 3001
 server.use('/graphql', graphqlHTTP({ schema, graphiql: true }))
 
 mongoose.connect(
-  'mongodb+srv://sergeyyarkov:1234@cluster0-1dsll.mongodb.net/todo-db?retryWrites=true&w=majority',
-  { useNewUrlParser: true, useUnifiedTopology: true }
+  'mongodb+srv://user:password@cluster0-1dsll.mongodb.net/todo-db?retryWrites=true&w=majority',
+  { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }
 )
 
 mongoose.connection.on('error', (err) =>

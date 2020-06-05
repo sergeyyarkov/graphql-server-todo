@@ -35,6 +35,45 @@ const Mutation = new GraphQLObjectType({
         }).save()
       },
     },
+    deleteCategory: {
+      type: CategoryType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLID) }
+      },
+      resolve(parent, args) {
+        return Categories.findByIdAndRemove(args.id)
+      }
+    },
+    deleteNote: {
+      type: NoteType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLID) }
+      },
+      resolve(parent, args) {
+        return Notes.findByIdAndRemove(args.id)
+      }
+    },
+    updateCategory: {
+      type: CategoryType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLID) },
+        title: { type: new GraphQLNonNull(GraphQLString) }
+      },
+      resolve(parent, args) {
+        return Categories.findByIdAndUpdate(args.id, { $set: { title: args.title } }, { new: true })
+      }
+    },
+    updateNote: {
+      type: NoteType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLID) },
+        title: { type: new GraphQLNonNull(GraphQLString) },
+        categoryId: { type: new GraphQLNonNull(GraphQLID) }
+      },
+      resolve(parent, args) {
+        return Notes.findByIdAndUpdate(args.id, { $set: { title: args.title, categoryId: args.categoryId } }, { new: true })
+      }
+    }
   },
 })
 
